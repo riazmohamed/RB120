@@ -36,3 +36,5 @@ puts HumanBeing.ancestors
 # PP::ObjectMixin
 # Kernel
 # BasicObject
+
+# ancestors method looks up the method lookup chain
