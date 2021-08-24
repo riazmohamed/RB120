@@ -24,3 +24,19 @@ bob.speak("How are you?")
   # Modules are a collection of classes, methods and constants.
   # group reusable code in one place
   # Module are also used as a name space
+
+# Namespacing Example
+  module Animals
+    class Elephant
+      include Sound
+    end
+
+    class Lion
+      include Sound
+    end
+  end
+
+  lion = Animals::Lion.new
+  lion.speak("Roar!!!")
+  elephant = Animals::Elephant.new
+  elephant.speak("I trumpet a lot!!!")
