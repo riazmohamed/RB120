@@ -1,28 +1,36 @@
 class MyCar
-  attr_accessor :current_speed
-
-  def initialize(current_speed)
-    @current_speed = current_speed
+  def initialize(year, make, color)
+    @year = year
+    @make = make
+    @color = color
+    @current_speed = 0
   end
 
   def speed_up(add_speed)
-    self.current_speed += add_speed
+    @current_speed += add_speed
+    puts "You pushed the gas and accelerate #{add_speed} mph."
   end
 
   def brake(remove_speed)
-    self.current_speed -= remove_speed
+    @current_speed -= remove_speed
+    puts "You pushed the brake and decelerate #{remove_speed} mph."
+  end
+
+  def current_speed
+    puts "You are currently doing #{@current_speed} mph."
   end
 
   def shut_off
-    self.current_speed = 0
+    @current_speed = 0
+    puts "Time to stop!"
   end
 end
 
-car = MyCar.new(0)
-p car.current_speed
+car = MyCar.new(1997, 'chevy lumina', 'white')
+car.current_speed
 car.speed_up(100)
-p car.current_speed
+car.current_speed
 car.brake(80)
-p car.current_speed
+car.current_speed
 car.shut_off
-p car.current_speed
+car.current_speed
