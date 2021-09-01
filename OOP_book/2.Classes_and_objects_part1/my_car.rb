@@ -65,5 +65,5 @@ car.color = "blue"
 puts car.color
 car.spray_paint("red")
 
-# MyCar.mileage(12, 324)
+MyCar.mileage(12, 324)
 puts car
