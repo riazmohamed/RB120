@@ -1,4 +1,4 @@
-class MyCar
+class Vehicle
   attr_accessor :color
   attr_reader :year, :make
 
@@ -30,7 +30,7 @@ class MyCar
 
   def spray_paint(color)
     self.color = color
-    puts "Your new car color with a #{color} paint looks good."
+    puts "Your new #{self.class.vehicle} color with a #{color} paint looks good."
   end
 
   def self.mileage(gallons, miles)
@@ -40,6 +40,15 @@ class MyCar
   def to_s
     "My car is a #{color}, #{year}, #{make}"
   end
+end
+
+class MyCar < Vehicle
+  @@vehicle = "car"
+
+  def self.vehicle
+    @@vehicle
+  end
+
 end
 
 car = MyCar.new(1997, 'chevy lumina', 'white')
@@ -56,5 +65,5 @@ car.color = "blue"
 puts car.color
 car.spray_paint("red")
 
-MyCar.mileage(12, 324)
+# MyCar.mileage(12, 324)
 puts car
