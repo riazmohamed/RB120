@@ -95,6 +95,11 @@ class RPSGame
     puts "Thank you for playing Rock, Paper, Scissors!"
   end
 
+  def display_winner
+    puts "You chose #{human.move}."
+    puts "The computer chose #{computer.move}"
+  end
+
   # procedural programming implementaation
   def play
     display_welcome_message
