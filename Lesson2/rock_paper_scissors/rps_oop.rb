@@ -1,37 +1,5 @@
-=begin
-# step 1: description of the game
-
-Rock, Paper, Scissors is a two-player game where each player chooses
-one of three possible moves: rock, paper, or scissors. The chosen moves
-will then be compared to see who wins, according to the following rules:
-
-- rock beats scissors
-- scissors beats paper
-- paper beats rock
-
-If the players chose the same move, then it's a tie.
-
-# Step2: extracting the nouns and verbs
-
-Nouns: player, move, rules
-Verbs: choose, compare
-
-note: Rock, Paper and Scissors are ignores as they are the states of the noun 'move'
-
-# step 3 organising the verbs with the nouns
-
-Player
-  - choose
-Move
-Rule
-
-- compare
-Note:- add choosing logic between the human choose and the player choose
-this can be acheived by using some sort of a state
-=end
-
 class Player
-attr_accessor :move, :name
+  attr_accessor :move, :name
 
   def initialize
     set_name
@@ -58,45 +26,20 @@ class Move
   end
 
   def >(other_move)
-    if rock?
-      return true if other_move.scissors?
-      return false
-    elsif paper?
-      return true if other_move.rock?
-      return false
-    elsif scissors?
-      return true if other_move.paper?
-      return false
-    end
+    (rock? && other_move.scissors?) ||
+      (paper? && other_move.rock?) ||
+      (scissors? && other_move.paper?)
   end
 
   def <(other_move)
-    if rock?
-      return true if other_move.paper?
-      return false
-    elsif paper?
-      return true if other_move.scissors?
-      return false
-    elsif scissors?
-      return true if other_move.rock?
-      return false
-    end
+    (rock? && other_move.paper?) ||
+      (paper? && other_move.scissors?) ||
+      (scissors? && other_move.rock?)
   end
 
   def to_s
     @value
   end
-end
-
-class Rule
-  def initialize
-    # not sure what the "state" of a rule object should be
-  end
-end
-
-# not sure where "compare" goes yet
-def compare(move1, move2)
-
 end
 
 class Human < Player
@@ -130,7 +73,7 @@ class Computer < Player
   end
 
   def choose
-    self.move = Move.new(Move::VALUES.sample) # collaborator object
+    self.move = Move.new(Move::VALUES.sample)
   end
 end
 
@@ -139,8 +82,8 @@ class RPSGame
   attr_accessor :human, :computer
 
   def initialize
-    @human = Human.new    # collaborator object
-    @computer = Computer.new # collaborator object
+    @human = Human.new
+    @computer = Computer.new
   end
 
   def display_welcome_message
@@ -151,10 +94,12 @@ class RPSGame
     puts "Thank you for playing Rock, Paper, Scissors!"
   end
 
-  def display_winner
+  def display_moves
     puts "#{human.name} chose #{human.move}."
     puts "#{computer.name} chose #{computer.move}."
+  end
 
+  def display_winner
     if human.move > computer.move
       puts "#{human.name} won!"
     elsif human.move < computer.move
@@ -168,20 +113,21 @@ class RPSGame
     answer = nil
     loop do
       puts "Would you like to play again? (y/n)"
-      answer = gets.chomp
-      break if ['y', 'n'].include?(answer.downcase)
+      answer = gets.chomp.downcase
+      break if ['y', 'n'].include?(answer)
       puts "Sorry, must be y or n."
     end
 
-    answer == 'y' ? true : false
+    return false if answer == "n"
+    return true if answer == "y"
   end
 
-  # procedural programming implementaation
   def play
     display_welcome_message
     loop do
       human.choose
       computer.choose
+      display_moves
       display_winner
       break unless play_again?
     end
@@ -190,4 +136,4 @@ class RPSGame
 end
 
 game = RPSGame.new
-p game.play
+game.play
