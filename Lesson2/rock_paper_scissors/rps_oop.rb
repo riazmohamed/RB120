@@ -33,26 +33,10 @@ this can be acheived by using some sort of a state
 class Player
 attr_accessor :move, :name
 
-  def initialize(player_type = :human)
+  def initialize
     # maybe a "name"? what about a "move"?
-    @player_type = player_type
     @move = nil
     set_name
-  end
-
-  def set_name
-    if human?
-      n = ""
-      loop do
-        puts "What's your name?"
-        n = gets.chomp
-        break unless n.empty?
-        puts "Sorry, must enter a value."
-      end
-      self.name = n
-    else
-      self.name = ['R2D2', 'Hal', 'Chappie', 'Sonny', 'Number 5'].sample
-    end
   end
 
   def choose
@@ -94,13 +78,48 @@ def compare(move1, move2)
 
 end
 
+class Human < Player
+  def set_name
+    n = ""
+    loop do
+      puts "What's your name?"
+      n = gets.chomp
+      break unless n.empty?
+      puts "Sorry, must enter a value."
+    end
+    self.name = n
+  end
+
+  def choose
+    choice = nil
+    loop do
+      puts "Please choose rock, paper or scissors:"
+      choice = gets.chomp
+      break if ['rock', 'paper', 'scissors'].include?(choice)
+      puts "Sorry, invalid choice."
+    end
+
+    self.move = choice
+  end
+end
+
+class Computer < Player
+  def set_name
+    self.name = ['R2D2', 'Hal', 'Chappie', 'Sonny', 'Number 5'].sample
+  end
+
+  def choose
+    self.move = ['rock', 'paper', 'scissors'].sample
+  end
+end
+
 # Game Orchestration Engine
 class RPSGame
   attr_accessor :human, :computer
 
   def initialize
-    @human = Player.new    # collaborator object
-    @computer = Player.new(:computer) # collaborator object
+    @human = Human.new    # collaborator object
+    @computer = Computer.new # collaborator object
   end
 
   def display_welcome_message
