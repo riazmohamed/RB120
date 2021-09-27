@@ -1,3 +1,5 @@
+
+```ruby
 # Game description
 # ttt is a 2 player board game played on a 3x3 grid. Players take turns marking a square. The first player to mark 3 squares in a row wins.
 
@@ -60,3 +62,4 @@ end
 # we'll kick off the game like this
 game = TTTGame.new
 game.play
+```
