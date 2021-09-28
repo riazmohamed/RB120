@@ -46,6 +46,10 @@ class Board
   def reset
     (1..9).each { |key| @squares[key] = Square.new }
   end
+
+  def clear
+    system "clear"
+  end
 end
 
 class Square
@@ -95,7 +99,7 @@ class TTTGame
   end
 
   def display_board(clear = true)
-    system "clear" if clear
+    board.clear if clear
     puts "You are a #{human.marker}. Computer is a #{computer.marker}"
     puts ""
     puts "     |     |"
@@ -155,7 +159,7 @@ class TTTGame
   end
 
   def play
-    system 'clear'
+    board.clear
     display_welcome_message
 
     loop do
@@ -173,7 +177,7 @@ class TTTGame
       display_result
       break unless play_again?
       board.reset
-      system 'clear'
+      board.clear
       puts "Let's play again!"
       puts ""
     end
