@@ -6,7 +6,7 @@ class Board
                   [[1, 5, 9], [3, 5, 7]]              # diagonals
 
   def initialize
-    @squares = {}#{1 => Square.new(' '), 2 => Square.new(' ')}
+    @squares = {} # {1 => Square.new(' '), 2 => Square.new(' ')}
     reset
   end
 
@@ -98,8 +98,8 @@ class TTTGame
     puts "Thank you for playing Tic Tac Toe!"
   end
 
-  def display_board(clear = true)
-    board.clear if clear
+  def display_board(clear_screen: true)
+    board.clear if clear_screen
     puts "You are a #{human.marker}. Computer is a #{computer.marker}"
     puts ""
     puts "     |     |"
@@ -163,7 +163,7 @@ class TTTGame
     display_welcome_message
 
     loop do
-      display_board(false)
+      display_board(clear_screen: false)
 
       loop do
         human_moves
