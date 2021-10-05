@@ -7,9 +7,13 @@ class Machine
     self.flip_switch(:off)
   end
 
+  def current_switch_state
+    puts "Currently the switch is '#{switch}'"
+  end
+
   private
-  
-  attr_writer :switch
+
+  attr_accessor :switch
 
   def flip_switch(desired_state)
     self.switch = desired_state
@@ -18,4 +22,6 @@ end
 
 machine = Machine.new
 p machine.start
+machine.current_switch_state
 p machine.stop
+machine.current_switch_state
