@@ -1,12 +1,10 @@
-require 'pry'
-
 class Board
   WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                   [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
                   [[1, 5, 9], [3, 5, 7]]              # diagonals
 
   def initialize
-    @squares = {} 
+    @squares = {}
     reset
   end
 
@@ -18,6 +16,8 @@ class Board
     @squares[key].marker = marker
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def draw
     puts "     |     |"
     puts "  #{@squares[1]}  |  #{@squares[2]}  |  #{@squares[3]}"
@@ -31,6 +31,8 @@ class Board
     puts "  #{@squares[7]}  |  #{@squares[8]}  |  #{@squares[9]}"
     puts "     |     |"
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def unmarked_keys
     @squares.keys.select { |key| @squares[key].unmarked? }
@@ -41,7 +43,7 @@ class Board
   end
 
   def someone_won?
-    !!winning_marker # will return a boolean
+    !!winning_marker
   end
 
   def three_identical_markers?(squares)
@@ -52,13 +54,13 @@ class Board
 
   # returns the winning marker or return nil
   def winning_marker
-     WINNING_LINES.each do |line|
-        squares = @squares.values_at(*line)
-        if three_identical_markers?(squares)
-          return squares.first.marker
-        end
-     end
-     nil
+    WINNING_LINES.each do |line|
+      squares = @squares.values_at(*line)
+      if three_identical_markers?(squares)
+        return squares.first.marker
+      end
+    end
+    nil
   end
 
   def reset
@@ -94,6 +96,7 @@ end
 
 class Player
   attr_reader :marker
+
   def initialize(marker)
     @marker = marker
   end
@@ -102,6 +105,7 @@ end
 class TTTGame
   HUMAN_MARKER = "X"
   COMPUTER_MARKER = "O"
+  FIRST_TO_MOVE = HUMAN_MARKER
 
   attr_reader :board, :human, :computer
 
@@ -109,7 +113,36 @@ class TTTGame
     @board = Board.new
     @human = Player.new(HUMAN_MARKER)
     @computer = Player.new(COMPUTER_MARKER)
+    @current_marker = FIRST_TO_MOVE
   end
+
+  def player_move
+    loop do
+      current_player_moves
+      break if board.someone_won? || board.full?
+      clear_screen_and_display_board
+    end
+  end
+
+  def main_game
+    loop do
+      display_board
+      player_move
+      display_result
+      break unless play_again?
+      reset
+      display_play_again_message
+    end
+  end
+
+  def play
+    board.clear
+    display_welcome_message
+    main_game
+    display_goodbye_message
+  end
+
+  private
 
   def display_welcome_message
     puts "Welcome to Tic Tac Toe!"
@@ -149,6 +182,20 @@ class TTTGame
     board[board.unmarked_keys.sample] = computer.marker
   end
 
+  def human_turn?
+    @current_marker == HUMAN_MARKER
+  end
+
+  def current_player_moves
+    if human_turn?
+      human_moves
+      @current_marker = COMPUTER_MARKER
+    else
+      computer_moves
+      @current_marker = HUMAN_MARKER
+    end
+  end
+
   def display_result
     clear_screen_and_display_board
     case board.winning_marker
@@ -176,37 +223,13 @@ class TTTGame
 
   def reset
     board.reset
+    @current_marker = FIRST_TO_MOVE
     board.clear
   end
 
   def display_play_again_message
     puts "Let's play again!"
     puts ""
-  end
-
-  def play
-    board.clear
-    display_welcome_message
-
-    loop do
-      display_board
-
-      loop do
-        human_moves
-        break if board.someone_won? || board.full?
-
-        computer_moves
-        break if board.someone_won? || board.full?
-
-        clear_screen_and_display_board
-      end
-      display_result
-      break unless play_again?
-      reset
-      display_play_again_message
-    end
-
-    display_goodbye_message
   end
 end
 
