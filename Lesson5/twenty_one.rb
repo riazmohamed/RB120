@@ -81,6 +81,9 @@ module Hand
     puts ""
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Style/ConditionalAssignment
   def total
     total = 0
     cards.each do |card|
@@ -92,6 +95,9 @@ module Hand
         total += card.face.to_i
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Style/ConditionalAssignment
 
     # correct for Aces
     cards.select(&:ace?).count.times do
@@ -115,6 +121,7 @@ class Participant
   include Hand
 
   attr_accessor :name, :cards
+
   def initialize
     @cards = []
     set_name
@@ -147,7 +154,7 @@ class Dealer < Participant
 
   def show_flop
     puts "---- #{name}'s Hand ----"
-    puts "#{cards.first}"
+    puts cards.first.to_s
     puts " ?? "
     puts ""
   end
@@ -180,6 +187,8 @@ class TwentyOne
     dealer.show_flop
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def player_turn
     puts "#{player.name}'s turn..."
 
@@ -222,6 +231,8 @@ class TwentyOne
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def show_busted
     if player.busted?
@@ -258,6 +269,11 @@ class TwentyOne
     answer == 'y'
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/BlockLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Style/GuardClause
   def start
     loop do
       system 'clear'
@@ -294,6 +310,11 @@ class TwentyOne
 
     puts "Thank you for playing Twenty-One. Goodbye!"
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/BlockLength
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Style/GuardClause
 end
 
 game = TwentyOne.new
