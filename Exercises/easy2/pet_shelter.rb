@@ -1,16 +1,41 @@
 class Shelter
+  attr_reader :name, :type, :pet_collection, :owner_collection
+
+  def initialize
+    @owner_collection = {}
+    @pet_collection = {}
+  end
+
   def adopt(owner_object, pet_object)
-    # logic to capture the owner and the pet state
-    # need to deciper the owners name and the pets name
+    # required methods
+    p owners_name = owner_object.name
+    p pets_name = pet_object.name
+    p pets_type = pet_object.type
 
-    =begin
-      given Owner object with state'name'
-      given Pet object with state'name' and 'type'
+    # required format to capture the details
+    # @owner_collection = { owners_name: { pets_type: pets_name } }
 
-      # create a local variable equal to the owners name
-      # set the owners name to an array containing elements as hash
-        - for each hash the type_of_pet is key and the pet_name is value
-    =end
+    # Create the pets collection
+    # collect all the names of the pets in an array
+
+    if pet_collection.has_key?(pets_type)
+      pet_collection[pets_type] << pets_name
+    else
+      pet_collection[pets_type] = [pets_name]
+    end
+
+    # if owner_collection.has_key?(owners_name)
+    #   # do something
+    #   if owner_collection[:owners_name].has_key?(pets_type)
+    #     # append the pet name to the value of the pets_type key
+    #     owner_collection[:owners_name][:pets_type] = pets_name
+    #   end
+    # else
+    #   # do something else
+    #   # create the key/value pairs
+    #   owner_collection[:owners_name] =
+    # end
+
   end
 
   def print_adoptions
@@ -48,7 +73,7 @@ class Owner
     @pet_count = 0
   end
 
-  # everytime a new pet is added to the Shelter object trigger this
+  # everytime a new pet is added to the Shelter object trigger this increment
   def increment
     @pet_count += 1
   end
@@ -58,7 +83,7 @@ class Owner
   end
 end
 
-# butterscotch = Pet.new('cat', 'Butterscotch')
+butterscotch = Pet.new('cat', 'Butterscotch')
 # pudding      = Pet.new('cat', 'Pudding')
 # darwin       = Pet.new('bearded dragon', 'Darwin')
 # kennedy      = Pet.new('dog', 'Kennedy')
@@ -66,11 +91,11 @@ end
 # molly        = Pet.new('dog', 'Molly')
 # chester      = Pet.new('fish', 'Chester')
 
-phanson = Owner.new('P Hanson')
-bholmes = Owner.new('B Holmes')
+p phanson = Owner.new('P Hanson')
+p bholmes = Owner.new('B Holmes')
 
-# shelter = Shelter.new
-# shelter.adopt(phanson, butterscotch)
+shelter = Shelter.new
+shelter.adopt(phanson, butterscotch)
 # shelter.adopt(phanson, pudding)
 # shelter.adopt(phanson, darwin)
 # shelter.adopt(bholmes, kennedy)
@@ -78,8 +103,8 @@ bholmes = Owner.new('B Holmes')
 # shelter.adopt(bholmes, molly)
 # shelter.adopt(bholmes, chester)
 # shelter.print_adoptions
-puts "#{phanson.name} has #{phanson.number_of_pets} adopted pets."
-puts "#{bholmes.name} has #{bholmes.number_of_pets} adopted pets."
+# puts "#{phanson.name} has #{phanson.number_of_pets} adopted pets."
+# puts "#{bholmes.name} has #{bholmes.number_of_pets} adopted pets."
 
 =begin
 the following is the required output
@@ -99,3 +124,5 @@ P Hanson has 3 adopted pets.
 B Holmes has 4 adopted pets.
 =====================
 =end
+
+p shelter.pet_collection
