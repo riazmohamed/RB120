@@ -22,6 +22,7 @@ class Shelter
   end
 
   def adopt(owner_object, pet_object)
+    owner_object.increment
     owners_name = owner_object.name
     pets_name = pet_object.name
     pets_type = pet_object.type
@@ -56,6 +57,8 @@ class Shelter
       puts ""
     end
   end
+
+
 end
 
 class Pet
@@ -105,27 +108,5 @@ shelter.adopt(bholmes, sweetie)
 shelter.adopt(bholmes, molly)
 shelter.adopt(bholmes, chester)
 shelter.print_adoptions
-# puts "#{phanson.name} has #{phanson.number_of_pets} adopted pets."
-# puts "#{bholmes.name} has #{bholmes.number_of_pets} adopted pets."
-
-=begin
-the following is the required output for shelter.print_adoptions
-=====================
-P Hanson has adopted the following pets:
-a cat named Butterscotch
-a cat named Pudding
-a bearded dragon named Darwin
-
-B Holmes has adopted the following pets:
-a dog named Molly
-a parakeet named Sweetie Pie
-a dog named Kennedy
-a fish named Chester
-
-P Hanson has 3 adopted pets.
-B Holmes has 4 adopted pets.
-=====================
-=end
-
-# tests
-# p shelter.owner_collection#.each { |key, value| puts key }
+puts "#{phanson.name} has #{phanson.number_of_pets} adopted pets."
+puts "#{bholmes.name} has #{bholmes.number_of_pets} adopted pets."
