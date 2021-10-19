@@ -1,5 +1,5 @@
 class Shelter
-  attr_reader :name, :type, :owner_collection
+  attr_reader :owner_collection
 
   def initialize
     @owner_collection = {}
@@ -57,8 +57,6 @@ class Shelter
       puts ""
     end
   end
-
-
 end
 
 class Pet
