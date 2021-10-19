@@ -1,16 +1,34 @@
+require 'pry'
+
 class Shelter
-  attr_reader :name, :type, :pet_collection, :owner_collection
+  attr_reader :name, :type, :owner_collection
 
   def initialize
     @owner_collection = {}
-    @pet_collection = {}
+    # @pet_collection = {}
+  end
+
+  def pet_collection(pets_name, pets_type)
+    collection = {}
+
+    if collection.has_key?(pets_type)
+      collection[pets_type] << pets_name
+    else
+      collection[pets_type] = [pets_name]
+    end
+
+    collection
+  end
+
+  def has_the_pet?(pets_type, owners_name)
+    owner_collection[owners_name].select { |element| element[pets_type] } != []
   end
 
   def adopt(owner_object, pet_object)
     # required methods
-    p owners_name = owner_object.name
-    p pets_name = pet_object.name
-    p pets_type = pet_object.type
+    owners_name = owner_object.name
+    pets_name = pet_object.name
+    pets_type = pet_object.type
 
     # required format to capture the details
     # @owner_collection = { owners_name: { pets_type: pets_name } }
@@ -18,24 +36,25 @@ class Shelter
     # Create the pets collection
     # collect all the names of the pets in an array
 
-    if pet_collection.has_key?(pets_type)
-      pet_collection[pets_type] << pets_name
+    # Grouping pets in a hash/array combination
+    collection = pet_collection(pets_name, pets_type)
+
+    # Group Owners collection of pets and their types
+    if owner_collection.has_key?(owners_name)
+
+      if has_the_pet?(pets_type, owners_name)
+        owner_collection.each do |owners, his_pets|
+          his_pets.each do |type, name|
+            type[pets_type] << pets_name if owners == owners_name && type.has_key?(pets_type)
+          end
+        end
+      else
+        owner_collection[owners_name] << collection
+      end
+
     else
-      pet_collection[pets_type] = [pets_name]
+      owner_collection[owners_name] = [collection]
     end
-
-    # if owner_collection.has_key?(owners_name)
-    #   # do something
-    #   if owner_collection[:owners_name].has_key?(pets_type)
-    #     # append the pet name to the value of the pets_type key
-    #     owner_collection[:owners_name][:pets_type] = pets_name
-    #   end
-    # else
-    #   # do something else
-    #   # create the key/value pairs
-    #   owner_collection[:owners_name] =
-    # end
-
   end
 
   def print_adoptions
@@ -84,24 +103,24 @@ class Owner
 end
 
 butterscotch = Pet.new('cat', 'Butterscotch')
-# pudding      = Pet.new('cat', 'Pudding')
-# darwin       = Pet.new('bearded dragon', 'Darwin')
-# kennedy      = Pet.new('dog', 'Kennedy')
-# sweetie      = Pet.new('parakeet', 'Sweetie Pie')
-# molly        = Pet.new('dog', 'Molly')
-# chester      = Pet.new('fish', 'Chester')
+pudding      = Pet.new('cat', 'Pudding')
+darwin       = Pet.new('bearded dragon', 'Darwin')
+kennedy      = Pet.new('dog', 'Kennedy')
+sweetie      = Pet.new('parakeet', 'Sweetie Pie')
+molly        = Pet.new('dog', 'Molly')
+chester      = Pet.new('fish', 'Chester')
 
-p phanson = Owner.new('P Hanson')
-p bholmes = Owner.new('B Holmes')
+phanson = Owner.new('P Hanson')
+bholmes = Owner.new('B Holmes')
 
 shelter = Shelter.new
 shelter.adopt(phanson, butterscotch)
-# shelter.adopt(phanson, pudding)
-# shelter.adopt(phanson, darwin)
-# shelter.adopt(bholmes, kennedy)
-# shelter.adopt(bholmes, sweetie)
-# shelter.adopt(bholmes, molly)
-# shelter.adopt(bholmes, chester)
+shelter.adopt(phanson, pudding)
+shelter.adopt(phanson, darwin)
+shelter.adopt(bholmes, kennedy)
+shelter.adopt(bholmes, sweetie)
+shelter.adopt(bholmes, molly)
+shelter.adopt(bholmes, chester)
 # shelter.print_adoptions
 # puts "#{phanson.name} has #{phanson.number_of_pets} adopted pets."
 # puts "#{bholmes.name} has #{bholmes.number_of_pets} adopted pets."
@@ -125,4 +144,5 @@ B Holmes has 4 adopted pets.
 =====================
 =end
 
-p shelter.pet_collection
+# tests
+p shelter.owner_collection
